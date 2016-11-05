@@ -1,0 +1,23 @@
+---
+driver:
+  name: scalr
+
+provisioner:
+  name: chef_solo
+
+platforms:
+  - name: ubuntu-16.04-us-east-1
+    driver:
+      scalr_api_url: 'http://demo.scalr.com'
+      scalr_env_id: '36'
+      scalr_project_id: '30c59dba-fc9b-4d0f-83ec-4b5043b12f72'
+      scalr_location: 'us-east-1'
+      scalr_server_instanceType: 'm3.medium'
+      scalr_use_role: 82948
+      scalr_platform: 'ec2'
+
+suites:
+  - name: default
+    run_list:
+      - recipe[apache::default]
+    attributes:
