@@ -1,6 +1,9 @@
 #!/bin/bash
 
 KITCHEN_INSTANCE=default-ubuntu-1604-us-east-1
+OS=ubuntu-16-04
+ROLE_ID=83045
+AMI_NAME=ubuntu-16-04-apache2-$(date +"%y%m%d-%H%M%S")
 
 kitchen destroy $KITCHEN_INSTANCE
 kitchen create $KITCHEN_INSTANCE
@@ -24,7 +27,6 @@ fi
 echo "Image successfully tested, publishing at the account scope."
 SERVER_ID=$(kitchen diagnose | grep 'serverId:' | awk '{ print $2 }')
 INSTANCE_ID=$(scalr-ctl servers get --serverId $SERVER_ID --json | jq -r '.data.cloudServerId')
-AMI_NAME=ubuntu-16-04-apache2-$(date +"%y%m%d-%H%M%S")
 AMI_ID=$(aws ec2 create-image --instance-id $INSTANCE_ID --name "$AMI_NAME" --output text)
 LOCATION=$(kitchen diagnose | grep 'imageLocation:' | awk '{ print $2 }')
 PLATFORM=$(kitchen diagnose | grep 'imagePlatform:' | awk '{ print $2 }')
@@ -36,14 +38,13 @@ NEW_IMAGE_DESC=$(echo "{
   \"cloudLocation\": \"$LOCATION\",
   \"cloudPlatform\": \"$PLATFORM\",
   \"name\": \"$AMI_NAME\", 
-  \"os\": {\"id\": \"ubuntu-16-04\"}, 
+  \"os\": {\"id\": \"$OS\"},
   \"scalrAgentInstalled\": true, 
   \"type\": \"ebs\"
 }" | scalr-ctl account images register --stdin | ruby -e 'require "yaml"; require "json"; puts JSON.dump(YAML.load(STDIN.read))')
 
 # Replacing previous image, which is registered in a given Role
 echo "Image created in Scalr, registering in the Role."
-ROLE_ID=83045
 NEW_IMAGE_ID=$(echo "$NEW_IMAGE_DESC" | jq -r '.id')
 
 OLD_IMGS=$(scalr-ctl account role-images list --roleId $ROLE_ID --json | jq -r '.data[].image.id')
