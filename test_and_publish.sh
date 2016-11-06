@@ -30,7 +30,7 @@ LOCATION=$(kitchen diagnose | grep 'imageLocation:' | awk '{ print $2 }')
 PLATFORM=$(kitchen diagnose | grep 'imagePlatform:' | awk '{ print $2 }')
 
 echo "{
-  \"architecture\": \"i386\",
+  \"architecture\": \"x86_64\",
   \"cloudImageId\": \"$AMI_ID\",
   \"cloudInitInstalled\": true,
   \"cloudLocation\": \"$LOCATION\",
