@@ -4,6 +4,12 @@ KITCHEN_INSTANCE=default-ubuntu-1604-us-east-1
 
 kitchen destroy $KITCHEN_INSTANCE
 kitchen create $KITCHEN_INSTANCE
+if [[ $? != 0 ]]; then
+    echo "Can't launch server. Exiting."
+    kitchen destroy $KITCHEN_INSTANCE
+    exit 1
+fi
+
 kitchen converge $KITCHEN_INSTANCE
 kitchen setup $KITCHEN_INSTANCE
 kitchen verify $KITCHEN_INSTANCE
@@ -11,7 +17,7 @@ kitchen verify $KITCHEN_INSTANCE
 if [[ $? != 0 ]]; then
     echo "Testing failed. Exiting."
     kitchen destroy $KITCHEN_INSTANCE
-    exit 1
+    exit 2
 fi
 
 # image testing succeeded
