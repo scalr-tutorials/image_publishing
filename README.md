@@ -8,9 +8,11 @@ the Account scope in Scalr.
 
 ### Requirements
 
-The test_and_publish.sh script assumes that
+The `test_and_publish.sh` script assumes that
+ - jq
  - test-kitchen
  - scalr-ctl
  - the aws CLI tools
 are installed and setup.
 The aws CLI tools are used to snapshot the server.
+
