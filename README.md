@@ -13,7 +13,7 @@ but you could replace it with the scalr-ctl command line tool, or with the provi
 
 ### Using the script with your Scalr install
 
-Make sure you installed the requirments (see below).
+Make sure you installed the requirements (see below).
 
 Edit the `.kitchen.yml`, in particular the "platform" section, to your Scalr installation.
 Edit the `test_and_publish.sh` script. You will likely have to change the `KITCHEN_INSTANCE`, `OS`, 
