@@ -15,24 +15,23 @@ but you could replace it with the scalr-ctl command line tool, or with the provi
 
 Make sure you installed the requirements (see below).
 
-Edit the `.kitchen.yml`, in particular the "platform" section, to your Scalr installation.
+Edit the `.kitchen.yml`, in particular the "platform" section, to match your Scalr installation.
 Edit the `test_and_publish.sh` script. You will likely have to change the `KITCHEN_INSTANCE`, `OS`, 
 `ROLE_ID` and `AMI_NAME` (which is used both for the AMI name in EC2 and the image name in Scalr) variables.
 
 ### Next steps
 
 If you want to use this process as-is, the next step is simply to add a real chef cookbook here, write
-associated tests, and potentially customize the configuration to build more than 1 image. You could also
+associated tests, and potentially customize the configuration to build more than one image. You could also
 modify the script to publish the Images in more than one location.
 
 ### Requirements
 
-The `test_and_publish.sh` script assumes that
+The `test_and_publish.sh` script assumes that the following software is installed and configured:
  - jq (a simple command line tool to handle JSON objects)
  - test-kitchen
  - scalr-ctl
  - the aws CLI tools
-are installed and setup.
 
 The aws CLI tools are used to snapshot the server.
 
